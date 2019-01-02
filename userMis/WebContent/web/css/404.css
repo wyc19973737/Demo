@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.icon {
+	text-align: center;
+	margin-top: 100px;
+}
+
+.icon .layui-icon {
+	font-size: 260px;
+}
+
+.icon .message {
+	color: #009688;
+}

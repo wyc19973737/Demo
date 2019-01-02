@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+.layui-main {
+	width: 30%;
+	margin-top: 30px;
+}
+
+.logo {
+	width: 100%;
+	height: 60px;
+	margin-bottom: 15px;
+	padding-left: 60px;
+}
+
+.logo img {
+	width: 60px;
+	height: 60px;
+}
+
+.logo a:hover {
+	opacity: 0.7;
+}
+
+.logo h2 {
+	display: inline;
+	margin-left: 10px;
+}
+
+.layui-form-item label {
+	position: absolute;
+	width: 38px;
+	height: 36px;
+	font-size: 25px;
+	text-align: center;
+	line-height: 36px;
+	opacity: 0.5;
+}
+
+.in .layui-input {
+	padding-left: 38px;
+}
