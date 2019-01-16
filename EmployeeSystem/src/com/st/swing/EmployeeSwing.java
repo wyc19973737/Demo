@@ -94,7 +94,7 @@ public class EmployeeSwing {
 						list = es.load();
 					} else if (sex == ' ' && age == 0) {
 						for (Employee employee : emps) {
-							if (employee.getName().equals(name)) {
+							if (employee.getName().equals(name)||employee.getName().indexOf(name)>-1) {
 								list.add(employee);
 							}
 						}
@@ -112,13 +112,13 @@ public class EmployeeSwing {
 						}
 					} else if (age == 0) {
 						for (Employee employee : emps) {
-							if (employee.getName().equals(name) && employee.getSex() == sex) {
+							if ((employee.getName().equals(name)||employee.getName().indexOf(name)>-1) && employee.getSex() == sex) {
 								list.add(employee);
 							}
 						}
 					} else if (sex == ' ') {
 						for (Employee employee : emps) {
-							if (employee.getName().equals(name) && employee.getAge() == age) {
+							if ((employee.getName().equals(name)||employee.getName().indexOf(name)>-1) && employee.getAge() == age) {
 								list.add(employee);
 							}
 						}
@@ -130,7 +130,7 @@ public class EmployeeSwing {
 						}
 					} else {
 						for (Employee employee : emps) {
-							if (employee.getName().equals(name) && employee.getSex() == sex
+							if ((employee.getName().equals(name)||employee.getName().indexOf(name)>-1) && employee.getSex() == sex
 									&& employee.getAge() == age) {
 								list.add(employee);
 							}
@@ -251,7 +251,7 @@ public class EmployeeSwing {
 					JButton btn = new JButton("ÐÞ¸Ä");
 
 					name.setText(employee.getName());
-					sex.setSelectedItem(employee.getSex());
+					sex.setSelectedItem(employee.getSex()+"");
 					age.setText(employee.getAge()+"");
 					
 					jp.add(addName);
