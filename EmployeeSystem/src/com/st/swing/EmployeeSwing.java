@@ -27,6 +27,10 @@ public class EmployeeSwing {
 	private JScrollPane jsp;
 
 	private List<Employee> emps = new ArrayList<>();
+	private List<Employee> list = new ArrayList<>();
+
+	private JFrame addFrame;
+	private JFrame updateFrame;
 
 	private EmployeeTableModel etm = new EmployeeTableModel(emps);
 
@@ -76,6 +80,7 @@ public class EmployeeSwing {
 		panel1.add(select);
 
 		emps = es.load();
+		list = es.load();
 		etm.setEmps(emps);
 		JTable jt = new JTable(etm);
 		jsp = new JScrollPane(jt);
@@ -89,12 +94,12 @@ public class EmployeeSwing {
 					String name = text1.getText();
 					char sex = ((String) text2.getSelectedItem()).toCharArray()[0];
 					int age = Integer.parseInt(text3.getText());
-					List<Employee> list = new ArrayList<>();
+					list = new ArrayList<>();
 					if (name.equals("") && sex == ' ' && age == 0) {
 						list = es.load();
 					} else if (sex == ' ' && age == 0) {
 						for (Employee employee : emps) {
-							if (employee.getName().equals(name)||employee.getName().indexOf(name)>-1) {
+							if (employee.getName().equals(name) || employee.getName().indexOf(name) > -1) {
 								list.add(employee);
 							}
 						}
@@ -112,13 +117,15 @@ public class EmployeeSwing {
 						}
 					} else if (age == 0) {
 						for (Employee employee : emps) {
-							if ((employee.getName().equals(name)||employee.getName().indexOf(name)>-1) && employee.getSex() == sex) {
+							if ((employee.getName().equals(name) || employee.getName().indexOf(name) > -1)
+									&& employee.getSex() == sex) {
 								list.add(employee);
 							}
 						}
 					} else if (sex == ' ') {
 						for (Employee employee : emps) {
-							if ((employee.getName().equals(name)||employee.getName().indexOf(name)>-1) && employee.getAge() == age) {
+							if ((employee.getName().equals(name) || employee.getName().indexOf(name) > -1)
+									&& employee.getAge() == age) {
 								list.add(employee);
 							}
 						}
@@ -130,8 +137,8 @@ public class EmployeeSwing {
 						}
 					} else {
 						for (Employee employee : emps) {
-							if ((employee.getName().equals(name)||employee.getName().indexOf(name)>-1) && employee.getSex() == sex
-									&& employee.getAge() == age) {
+							if ((employee.getName().equals(name) || employee.getName().indexOf(name) > -1)
+									&& employee.getSex() == sex && employee.getAge() == age) {
 								list.add(employee);
 							}
 						}
@@ -155,85 +162,12 @@ public class EmployeeSwing {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFrame addFrame = new JFrame("添加");
-				addFrame.setSize(300, 200);
-				addFrame.setLocationRelativeTo(frame);
-				JPanel addPanel = new JPanel();
-				addPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 5));
-				JLabel addName = new JLabel("姓名:");
-				addName.setFont(new Font("宋体", Font.PLAIN, 20));
-				JTextField name = new JTextField();
-				name.setPreferredSize(new Dimension(TEXT_WIDTH, TEXT_HEIGHT));
-				JLabel addSex = new JLabel("性别:");
-				addSex.setFont(new Font("宋体", Font.PLAIN, 20));
-				JComboBox sex = new JComboBox();
-				sex.addItem("男");
-				sex.addItem("女");
-				sex.setPreferredSize(new Dimension(TEXT_WIDTH, TEXT_HEIGHT));
-				JLabel addAge = new JLabel("年龄:");
-				addAge.setFont(new Font("宋体", Font.PLAIN, 20));
-				JTextField age = new JTextField();
-				age.setPreferredSize(new Dimension(TEXT_WIDTH, TEXT_HEIGHT));
-				JButton btn = new JButton("添加");
-
-				btn.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						try {
-							String theName = name.getText();
-							if (theName.equals("")) {
-								JOptionPane.showMessageDialog(addFrame, "姓名不得为空", "提示信息", JOptionPane.CANCEL_OPTION);
-							} else {
-								char theSex = ((String) sex.getSelectedItem()).toCharArray()[0];
-								int theAge = Integer.parseInt(age.getText());
-								if (theAge < 18 || theAge > 65) {
-									JOptionPane.showMessageDialog(addFrame, "员工年龄需在18-65之间", "提示信息",
-											JOptionPane.CANCEL_OPTION);
-								} else {
-									Employee employee = new Employee();
-									employee.setName(theName);
-									employee.setSex(theSex);
-									employee.setAge(theAge);
-									es.add(employee);
-									emps = es.load();
-									etm.setEmps(emps);
-									etm.fireTableDataChanged();
-									addFrame.setVisible(false);
-								}
-							}
-						} catch (NumberFormatException nfe) {
-							JOptionPane.showMessageDialog(addFrame, "年龄请输入数字", "提示信息", JOptionPane.CANCEL_OPTION);
-						}
-					}
-				});
-
-				addPanel.add(addName);
-				addPanel.add(name);
-				addPanel.add(addSex);
-				addPanel.add(sex);
-				addPanel.add(addAge);
-				addPanel.add(age);
-				addPanel.add(btn);
-				addFrame.setContentPane(addPanel);
-				addFrame.setVisible(true);
-			}
-		});
-
-		updateBtn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int index = jt.getSelectedRow();
-				if (index > -1) {
-					Employee employee=emps.get(index);
-					JFrame updateFrame = new JFrame("修改");
-					updateFrame.setSize(260, 210);
-					updateFrame.setLocationRelativeTo(frame);
-					JPanel jp = new JPanel();
-
-					jp.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
-
+				if (addFrame == null) {
+					addFrame = new JFrame("添加");
+					addFrame.setSize(300, 200);
+					addFrame.setLocationRelativeTo(frame);
+					JPanel addPanel = new JPanel();
+					addPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 5));
 					JLabel addName = new JLabel("姓名:");
 					addName.setFont(new Font("宋体", Font.PLAIN, 20));
 					JTextField name = new JTextField();
@@ -248,19 +182,7 @@ public class EmployeeSwing {
 					addAge.setFont(new Font("宋体", Font.PLAIN, 20));
 					JTextField age = new JTextField();
 					age.setPreferredSize(new Dimension(TEXT_WIDTH, TEXT_HEIGHT));
-					JButton btn = new JButton("修改");
-
-					name.setText(employee.getName());
-					sex.setSelectedItem(employee.getSex()+"");
-					age.setText(employee.getAge()+"");
-					
-					jp.add(addName);
-					jp.add(name);
-					jp.add(addSex);
-					jp.add(sex);
-					jp.add(addAge);
-					jp.add(age);
-					jp.add(btn);
+					JButton btn = new JButton("添加");
 
 					btn.addActionListener(new ActionListener() {
 
@@ -269,37 +191,132 @@ public class EmployeeSwing {
 							try {
 								String theName = name.getText();
 								if (theName.equals("")) {
-									JOptionPane.showMessageDialog(updateFrame, "姓名不得为空", "提示信息",
+									JOptionPane.showMessageDialog(addFrame, "姓名不得为空", "提示信息",
 											JOptionPane.CANCEL_OPTION);
 								} else {
 									char theSex = ((String) sex.getSelectedItem()).toCharArray()[0];
 									int theAge = Integer.parseInt(age.getText());
 									if (theAge < 18 || theAge > 65) {
-										JOptionPane.showMessageDialog(updateFrame, "员工年龄需在18-65之间", "提示信息",
+										JOptionPane.showMessageDialog(addFrame, "员工年龄需在18-65之间", "提示信息",
 												JOptionPane.CANCEL_OPTION);
 									} else {
 										Employee employee = new Employee();
 										employee.setName(theName);
 										employee.setSex(theSex);
 										employee.setAge(theAge);
-										es.update(emps.get(index).getId(), employee);
+										es.add(employee);
 										emps = es.load();
 										etm.setEmps(emps);
 										etm.fireTableDataChanged();
-										updateFrame.setVisible(false);
+										addFrame.setVisible(false);
 									}
 								}
 							} catch (NumberFormatException nfe) {
-								JOptionPane.showMessageDialog(updateFrame, "员工编号为数字", "提示信息",
-										JOptionPane.CANCEL_OPTION);
+								JOptionPane.showMessageDialog(addFrame, "年龄请输入数字", "提示信息", JOptionPane.CANCEL_OPTION);
 							}
 						}
 					});
 
-					updateFrame.setContentPane(jp);
-					updateFrame.setVisible(true);
+					addPanel.add(addName);
+					addPanel.add(name);
+					addPanel.add(addSex);
+					addPanel.add(sex);
+					addPanel.add(addAge);
+					addPanel.add(age);
+					addPanel.add(btn);
+					addFrame.setContentPane(addPanel);
+					addFrame.setVisible(true);
 				} else {
-					JOptionPane.showMessageDialog(frame, "请选择员工", "提示信息", JOptionPane.CANCEL_OPTION);
+					addFrame.setVisible(true);
+				}
+			}
+		});
+
+		updateBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (updateFrame == null) {
+					int index = jt.getSelectedRow();
+					if (index > -1) {
+						Employee emp = list.get(index);
+						updateFrame = new JFrame("修改");
+						updateFrame.setSize(260, 210);
+						updateFrame.setLocationRelativeTo(frame);
+						JPanel jp = new JPanel();
+
+						jp.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
+						JLabel addName = new JLabel("姓名:");
+						addName.setFont(new Font("宋体", Font.PLAIN, 20));
+						JTextField name = new JTextField();
+						name.setPreferredSize(new Dimension(TEXT_WIDTH, TEXT_HEIGHT));
+						JLabel addSex = new JLabel("性别:");
+						addSex.setFont(new Font("宋体", Font.PLAIN, 20));
+						JComboBox sex = new JComboBox();
+						sex.addItem("男");
+						sex.addItem("女");
+						sex.setPreferredSize(new Dimension(TEXT_WIDTH, TEXT_HEIGHT));
+						JLabel addAge = new JLabel("年龄:");
+						addAge.setFont(new Font("宋体", Font.PLAIN, 20));
+						JTextField age = new JTextField();
+						age.setPreferredSize(new Dimension(TEXT_WIDTH, TEXT_HEIGHT));
+						JButton btn = new JButton("修改");
+
+						name.setText(emp.getName());
+						sex.setSelectedItem(emp.getSex() + "");
+						age.setText(emp.getAge() + "");
+
+						jp.add(addName);
+						jp.add(name);
+						jp.add(addSex);
+						jp.add(sex);
+						jp.add(addAge);
+						jp.add(age);
+						jp.add(btn);
+
+						btn.addActionListener(new ActionListener() {
+
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								try {
+									String theName = name.getText();
+									if (theName.equals("")) {
+										JOptionPane.showMessageDialog(updateFrame, "姓名不得为空", "提示信息",
+												JOptionPane.CANCEL_OPTION);
+									} else {
+										char theSex = ((String) sex.getSelectedItem()).toCharArray()[0];
+										int theAge = Integer.parseInt(age.getText());
+										if (theAge < 18 || theAge > 65) {
+											JOptionPane.showMessageDialog(updateFrame, "员工年龄需在18-65之间", "提示信息",
+													JOptionPane.CANCEL_OPTION);
+										} else {
+											Employee employee = new Employee();
+											employee.setId(emp.getId());
+											employee.setName(theName);
+											employee.setSex(theSex);
+											employee.setAge(theAge);
+											es.update(emp.getId(), employee);
+											list.set(index, employee);
+											etm.setEmps(list);
+											etm.fireTableDataChanged();
+											updateFrame.setVisible(false);
+										}
+									}
+								} catch (NumberFormatException nfe) {
+									JOptionPane.showMessageDialog(updateFrame, "员工编号为数字", "提示信息",
+											JOptionPane.CANCEL_OPTION);
+								}
+							}
+						});
+
+						updateFrame.setContentPane(jp);
+						updateFrame.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(frame, "请选择员工", "提示信息", JOptionPane.CANCEL_OPTION);
+					}
+				}else {
+					updateFrame.setVisible(true);
 				}
 			}
 		});

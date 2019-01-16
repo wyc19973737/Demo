@@ -3,7 +3,7 @@ package com.st.pojo;
 import java.io.Serializable;
 
 public class Employee implements Serializable {
-	
+
 	private int id;
 	private String name;
 	private char sex;
@@ -13,9 +13,9 @@ public class Employee implements Serializable {
 
 	}
 
-	public Employee(int id,String name, char sex, int age) {
+	public Employee(int id, String name, char sex, int age) {
 		super();
-		this.id=id;
+		this.id = id;
 		this.name = name;
 		this.sex = sex;
 		this.age = age;
@@ -23,6 +23,10 @@ public class Employee implements Serializable {
 
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id) {
+		this.id=id;
 	}
 	
 	public String getName() {
