@@ -46,11 +46,7 @@ public class Employee implements Serializable {
 	}
 
 	public void setAge(int age) {
-		if (age >= 18 && age <= 65) {
-			this.age = age;
-		} else {
-			this.age = 24;
-		}
+		this.age = age;
 	}
 
 }
