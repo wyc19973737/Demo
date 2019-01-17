@@ -9,9 +9,9 @@ sex varchar(1),
 age int
 );
 
-insert into employees values
+insert into employees(name,sex,age) values
 ('小明','男',18),
 ('小红','女',19),
 ('小强','男',20);
 
-/*drop database empdata;
+drop database empdata;
